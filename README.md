@@ -12,7 +12,7 @@ cosmétiques).
 
 ## Stack
 
-Next.js 15 (App Router) · Supabase (Auth OTP, Postgres + RLS, Storage) ·
+Next.js 15 (App Router) · Supabase (Auth, Postgres + RLS, Storage) ·
 Anthropic API (`claude-sonnet-5`, structured outputs) · OpenAI Whisper ·
 `barcode-detector` (zxing-wasm) · Serwist (service worker) · Tailwind 4.
 
@@ -24,8 +24,9 @@ Anthropic API (`claude-sonnet-5`, structured outputs) · OpenAI Whisper ·
 2. Dans **SQL Editor**, exécutez dans l'ordre les fichiers de
    `supabase/migrations/` (0001 → 0004). Le 0002 crée aussi le bucket privé
    `item-photos` et ses policies.
-3. Dans **Authentication → Providers**, vérifiez que **Email** est activé
-   (l'app utilise le code OTP envoyé par email).
+3. Créez votre utilisateur dans **Authentication → Users → Add user**
+   (email + mot de passe). Pas d'inscription publique : l'app est
+   mono-utilisateur, la connexion se fait par email + mot de passe.
 
 ### 2. Clés API
 
