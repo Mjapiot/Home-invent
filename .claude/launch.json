@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "inventaire-dev",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "PATH=/Users/maxence/.local/node/bin:/usr/bin:/bin",
+        "npm",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    }
+  ]
+}
