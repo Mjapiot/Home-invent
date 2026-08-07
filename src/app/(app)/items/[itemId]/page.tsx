@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import BackLink from "@/components/BackLink";
 import ExpiryBadge from "@/components/ExpiryBadge";
 import DeleteItemButton from "@/components/DeleteItemButton";
 import { signPhotoUrls } from "@/lib/photos";
@@ -32,19 +33,17 @@ export default async function ItemPage({
 
   return (
     <div>
-      <Link
+      <BackLink
         href={item.room_id ? `/homes/${item.home_id}/rooms/${item.room_id}` : `/homes/${item.home_id}`}
-        className="text-sm text-muted"
-      >
-        ‹ {item.rooms ? `${item.rooms.icon} ${item.rooms.name}` : item.homes?.name}
-      </Link>
+        label={item.rooms ? `${item.rooms.icon} ${item.rooms.name}` : (item.homes?.name ?? "Retour")}
+      />
 
       {photoUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={photoUrl}
           alt={item.name}
-          className="mt-3 h-48 w-full rounded-2xl object-cover"
+          className="card-shadow mt-3 h-48 w-full rounded-3xl object-cover"
         />
       )}
 
@@ -56,7 +55,7 @@ export default async function ItemPage({
         <ExpiryBadge date={item.expiry_date} />
       </div>
 
-      <div className="mt-4 space-y-2 rounded-2xl border border-border bg-card p-4 text-sm">
+      <div className="card-shadow mt-4 space-y-2.5 rounded-3xl bg-card p-4 text-sm">
         <Row label="Quantité" value={`${item.quantity} ${item.unit}`} />
         <Row
           label="Catégorie"
@@ -90,7 +89,7 @@ export default async function ItemPage({
       <div className="mt-4 flex gap-2">
         <Link
           href={`/items/${item.id}/edit`}
-          className="flex-1 rounded-xl bg-accent px-4 py-3 text-center font-semibold text-white"
+          className="flex-1 rounded-2xl bg-accent px-4 py-3 text-center font-semibold text-white shadow-lg shadow-accent/30"
         >
           Modifier
         </Link>

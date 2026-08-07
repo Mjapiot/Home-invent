@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import BackLink from "@/components/BackLink";
 import ItemForm from "@/components/ItemForm";
 import type { Category, Home, Item, Room } from "@/lib/types";
 
@@ -24,9 +24,7 @@ export default async function EditItemPage({
 
   return (
     <div>
-      <Link href={`/items/${itemId}`} className="text-sm text-muted">
-        ‹ Retour
-      </Link>
+      <BackLink href={`/items/${itemId}`} label="Retour" />
       <h1 className="mb-6 mt-1 text-2xl font-bold">Modifier</h1>
       <ItemForm
         item={item as Item}

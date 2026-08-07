@@ -1,8 +1,8 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import BackLink from "@/components/BackLink";
 import { useBarcodeScanner } from "@/hooks/useBarcodeScanner";
 import type { ProductLookup } from "@/lib/types";
 
@@ -54,12 +54,10 @@ function ScanContent() {
 
   return (
     <div>
-      <Link href="/capture" className="text-sm text-muted">
-        ‹ Ajouter
-      </Link>
-      <h1 className="mb-4 mt-1 text-2xl font-bold">📱 Scanner</h1>
+      <BackLink href="/capture" label="Ajouter" />
+      <h1 className="mb-4 mt-1 text-2xl font-bold">Scanner</h1>
 
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-black">
+      <div className="card-shadow relative overflow-hidden rounded-3xl bg-black">
         <video
           ref={videoRef}
           playsInline
@@ -79,7 +77,7 @@ function ScanContent() {
             className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white"
           >
             <span className="text-4xl">📷</span>
-            <span className="rounded-full bg-accent px-6 py-3 font-semibold">
+            <span className="rounded-full bg-accent px-6 py-3 font-semibold shadow-lg shadow-accent/40">
               Démarrer le scan
             </span>
           </button>

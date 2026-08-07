@@ -1,8 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Mic, Square } from "lucide-react";
+import BackLink from "@/components/BackLink";
 import { useAudioRecorder } from "@/hooks/useAudioRecorder";
 import { useCaptureStore } from "@/lib/capture-store";
 
@@ -64,10 +65,8 @@ function VoiceContent() {
 
   return (
     <div>
-      <Link href="/capture" className="text-sm text-muted">
-        ‹ Ajouter
-      </Link>
-      <h1 className="mb-4 mt-1 text-2xl font-bold">🎙️ Dictée</h1>
+      <BackLink href="/capture" label="Ajouter" />
+      <h1 className="mb-4 mt-1 text-2xl font-bold">Dictée</h1>
 
       <p className="mb-6 text-sm text-muted">
         Dictez ce que vous voulez inventorier : « trois boîtes de tomates
@@ -78,17 +77,17 @@ function VoiceContent() {
       <div className="flex flex-col items-center gap-4 py-6">
         {recording ? (
           <>
-            <div className="flex h-24 w-24 animate-pulse items-center justify-center rounded-full bg-danger text-4xl text-white">
-              ⏺
+            <div className="flex h-24 w-24 animate-pulse items-center justify-center rounded-full bg-danger text-white shadow-lg shadow-danger/40">
+              <Mic size={36} />
             </div>
             <p className="font-mono text-lg">
               {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
             </p>
             <button
               onClick={stopAndTranscribe}
-              className="rounded-xl bg-accent px-8 py-3 font-semibold text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3 font-semibold text-white shadow-lg shadow-accent/30"
             >
-              Terminer
+              <Square size={16} fill="currentColor" /> Terminer
             </button>
           </>
         ) : phase === "transcribing" ? (
@@ -99,9 +98,10 @@ function VoiceContent() {
         ) : (
           <button
             onClick={start}
-            className="flex h-24 w-24 items-center justify-center rounded-full bg-accent text-4xl text-white shadow-lg"
+            aria-label="Démarrer la dictée"
+            className="flex h-24 w-24 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/40"
           >
-            🎙️
+            <Mic size={36} />
           </button>
         )}
       </div>
@@ -115,12 +115,12 @@ function VoiceContent() {
             value={transcript}
             onChange={(e) => setTranscript(e.target.value)}
             rows={4}
-            className="w-full rounded-xl border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+            className="card-shadow w-full rounded-2xl bg-card px-4 py-3 outline-none ring-accent focus:ring-2"
           />
           <button
             onClick={extract}
             disabled={phase === "extracting" || !transcript.trim()}
-            className="w-full rounded-xl bg-accent px-4 py-3 font-semibold text-white disabled:opacity-50"
+            className="w-full rounded-2xl bg-accent px-4 py-3.5 font-semibold text-white shadow-lg shadow-accent/30 disabled:opacity-50"
           >
             {phase === "extracting" ? "Extraction des produits…" : "Extraire les produits"}
           </button>

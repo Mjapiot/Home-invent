@@ -1,26 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf9f7;
-  --foreground: #1c1917;
+  --background: #f2f2f5;
+  --foreground: #17151f;
   --card: #ffffff;
-  --muted: #78716c;
-  --accent: #b45309;
-  --accent-soft: #fef3e2;
-  --border: #e7e5e4;
-  --danger: #b91c1c;
+  --muted: #85818f;
+  --border: #e9e8ee;
+
+  --accent: #7c6cf0;
+  --accent-soft: #edeafd;
+
+  --success: #16a34a;
+  --success-soft: #e5f5eb;
+  --warning: #d97706;
+  --warning-soft: #fcf0db;
+  --danger: #e11d48;
+  --danger-soft: #fce7ec;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #171412;
-    --foreground: #f5f4f2;
-    --card: #232019;
-    --muted: #a8a29e;
-    --accent: #f59e0b;
-    --accent-soft: #3a2c12;
-    --border: #37322c;
-    --danger: #f87171;
+    --background: #141318;
+    --foreground: #f4f3f7;
+    --card: #1e1c24;
+    --muted: #9b97a6;
+    --border: #2c2933;
+
+    --accent: #a99bf8;
+    --accent-soft: #2a2740;
+
+    --success: #4ade80;
+    --success-soft: #17301f;
+    --warning: #fbbf24;
+    --warning-soft: #362a12;
+    --danger: #fb7185;
+    --danger-soft: #3b1a22;
   }
 }
 
@@ -29,10 +43,15 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-muted: var(--muted);
+  --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
-  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
 }
 
 html {
@@ -46,7 +65,19 @@ body {
   overscroll-behavior-y: none;
 }
 
-/* Zone sûre iOS pour la tab bar */
+/* Ombre douce des cartes (invisible en sombre, la carte contraste déjà) */
+.card-shadow {
+  box-shadow:
+    0 1px 2px rgba(20, 17, 30, 0.04),
+    0 8px 24px rgba(20, 17, 30, 0.07);
+}
+@media (prefers-color-scheme: dark) {
+  .card-shadow {
+    box-shadow: none;
+  }
+}
+
+/* Zones sûres iOS */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }

@@ -55,10 +55,10 @@ export default function SearchPage() {
   const catMap = new Map(categories.map((c) => [c.id, c]));
   const homeRooms = rooms.filter((r) => !homeId || r.home_id === homeId);
   const chipCls = (active: boolean) =>
-    `rounded-full border px-3 py-1.5 text-sm ${
+    `whitespace-nowrap rounded-full px-3.5 py-2 text-sm ${
       active
-        ? "border-accent bg-accent-soft font-medium text-accent"
-        : "border-border bg-card text-muted"
+        ? "bg-accent-soft font-semibold text-accent"
+        : "card-shadow bg-card text-muted"
     }`;
 
   return (
@@ -70,7 +70,7 @@ export default function SearchPage() {
         placeholder="Pâtes, vin, robe, doliprane…"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="mb-3 w-full rounded-xl border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+        className="card-shadow mb-3 w-full rounded-2xl bg-card px-4 py-3.5 outline-none ring-accent focus:ring-2"
       />
 
       <div className="mb-2 flex gap-2 overflow-x-auto pb-1">

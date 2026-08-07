@@ -1,27 +1,28 @@
 import Link from "next/link";
+import { Camera, ScanBarcode, Mic, PencilLine } from "lucide-react";
 
 const MODES = [
   {
     href: "/capture/photo",
-    icon: "📷",
+    Icon: Camera,
     title: "Photo",
     desc: "Photographiez une étagère, l'IA identifie les produits",
   },
   {
     href: "/capture/scan",
-    icon: "📱",
+    Icon: ScanBarcode,
     title: "Scanner un code-barres",
     desc: "Produits alimentaires et autres produits avec EAN",
   },
   {
     href: "/capture/voice",
-    icon: "🎙️",
+    Icon: Mic,
     title: "Dictée vocale",
     desc: "« Trois paquets de pâtes, deux bouteilles de vin… »",
   },
   {
     href: "/capture/manual",
-    icon: "✏️",
+    Icon: PencilLine,
     title: "Saisie manuelle",
     desc: "Formulaire classique",
   },
@@ -46,9 +47,11 @@ export default async function CapturePage({
           <Link
             key={mode.href}
             href={`${mode.href}${suffix}`}
-            className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
+            className="card-shadow flex items-center gap-4 rounded-3xl bg-card p-4"
           >
-            <span className="text-3xl">{mode.icon}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+              <mode.Icon size={22} />
+            </span>
             <div>
               <p className="font-semibold">{mode.title}</p>
               <p className="text-sm text-muted">{mode.desc}</p>

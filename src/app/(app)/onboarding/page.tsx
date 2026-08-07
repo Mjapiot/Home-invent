@@ -79,7 +79,7 @@ export default function OnboardingPage() {
             <select
               value={icon}
               onChange={(e) => setIcon(e.target.value)}
-              className="rounded-xl border border-border bg-card px-3 py-3 text-xl"
+              className="card-shadow rounded-2xl bg-card px-3 py-3 text-xl"
             >
               {["🏠", "🏡", "🏖️", "🏔️", "🏢"].map((i) => (
                 <option key={i} value={i}>
@@ -91,7 +91,7 @@ export default function OnboardingPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full rounded-xl border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+              className="card-shadow w-full rounded-2xl bg-card px-4 py-3 outline-none ring-accent focus:ring-2"
             />
           </div>
         </div>
@@ -110,10 +110,10 @@ export default function OnboardingPage() {
                     )
                   )
                 }
-                className={`flex items-center gap-2 rounded-xl border px-3 py-3 text-sm ${
+                className={`flex items-center gap-2 rounded-2xl px-3 py-3 text-sm ${
                   room.selected
-                    ? "border-accent bg-accent-soft font-medium"
-                    : "border-border bg-card text-muted"
+                    ? "bg-accent-soft font-semibold text-accent"
+                    : "card-shadow bg-card text-muted"
                 }`}
               >
                 <span>{room.icon}</span> {room.name}
@@ -128,7 +128,7 @@ export default function OnboardingPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-accent px-4 py-3 font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-2xl bg-accent px-4 py-3.5 font-semibold text-white shadow-lg shadow-accent/30 disabled:opacity-50"
         >
           {loading ? "Création…" : "Créer ma maison"}
         </button>

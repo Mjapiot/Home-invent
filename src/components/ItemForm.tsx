@@ -138,7 +138,7 @@ export default function ItemForm({
   }
 
   const inputCls =
-    "w-full rounded-xl border border-border bg-card px-4 py-3 outline-none focus:border-accent";
+    "card-shadow w-full rounded-2xl bg-card px-4 py-3 outline-none ring-accent focus:ring-2";
 
   return (
     <form onSubmit={save} className="space-y-4">
@@ -168,7 +168,7 @@ export default function ItemForm({
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.max(0, q - 1))}
-              className="h-12 w-12 rounded-xl border border-border bg-card text-xl"
+              className="card-shadow h-12 w-12 rounded-2xl bg-card text-xl"
             >
               −
             </button>
@@ -178,12 +178,12 @@ export default function ItemForm({
               step="any"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
-              className="h-12 w-full rounded-xl border border-border bg-card text-center outline-none focus:border-accent"
+              className="card-shadow h-12 w-full rounded-2xl bg-card text-center outline-none ring-accent focus:ring-2"
             />
             <button
               type="button"
               onClick={() => setQuantity((q) => q + 1)}
-              className="h-12 w-12 rounded-xl border border-border bg-card text-xl"
+              className="card-shadow h-12 w-12 rounded-2xl bg-card text-xl"
             >
               +
             </button>
@@ -260,10 +260,10 @@ export default function ItemForm({
               key={value}
               type="button"
               onClick={() => setStatus(value)}
-              className={`flex-1 rounded-xl border px-2 py-2 text-sm ${
+              className={`flex-1 rounded-full px-2 py-2.5 text-sm ${
                 status === value
-                  ? "border-accent bg-accent-soft font-medium"
-                  : "border-border bg-card text-muted"
+                  ? "bg-accent-soft font-semibold text-accent"
+                  : "card-shadow bg-card text-muted"
               }`}
             >
               {label}
@@ -284,7 +284,7 @@ export default function ItemForm({
               onChange={(e) =>
                 setAttributes((a) => a.map((p, i) => (i === idx ? [e.target.value, p[1]] : p)))
               }
-              className="w-1/3 rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-accent"
+              className="card-shadow w-1/3 rounded-2xl bg-card px-3 py-2 text-sm outline-none ring-accent focus:ring-2"
             />
             <input
               placeholder="M"
@@ -292,7 +292,7 @@ export default function ItemForm({
               onChange={(e) =>
                 setAttributes((a) => a.map((p, i) => (i === idx ? [p[0], e.target.value] : p)))
               }
-              className="flex-1 rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-accent"
+              className="card-shadow flex-1 rounded-2xl bg-card px-3 py-2 text-sm outline-none ring-accent focus:ring-2"
             />
             <button
               type="button"
@@ -319,7 +319,7 @@ export default function ItemForm({
           accept="image/*"
           capture="environment"
           onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
-          className="w-full text-sm text-muted file:mr-3 file:rounded-lg file:border-0 file:bg-accent-soft file:px-3 file:py-2 file:text-accent"
+          className="w-full text-sm text-muted file:mr-3 file:rounded-full file:border-0 file:bg-accent-soft file:px-4 file:py-2 file:font-medium file:text-accent"
         />
       </div>
 
@@ -341,7 +341,7 @@ export default function ItemForm({
       <button
         type="submit"
         disabled={loading || !homeId}
-        className="w-full rounded-xl bg-accent px-4 py-3 font-semibold text-white disabled:opacity-50"
+        className="w-full rounded-2xl bg-accent px-4 py-3.5 font-semibold text-white shadow-lg shadow-accent/30 disabled:opacity-50"
       >
         {loading ? "Enregistrement…" : item ? "Enregistrer" : "Ajouter à l'inventaire"}
       </button>

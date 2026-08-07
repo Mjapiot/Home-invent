@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AddRoomButton from "@/components/AddRoomButton";
+import BackLink from "@/components/BackLink";
 import type { Room } from "@/lib/types";
 
 export default async function HomePage({
@@ -37,9 +38,7 @@ export default async function HomePage({
 
   return (
     <div>
-      <Link href="/homes" className="text-sm text-muted">
-        ‹ Maisons
-      </Link>
+      <BackLink href="/homes" label="Maisons" />
       <h1 className="mb-6 mt-1 text-2xl font-bold">
         {home.icon} {home.name}
       </h1>
@@ -49,10 +48,12 @@ export default async function HomePage({
           <Link
             key={room.id}
             href={`/homes/${homeId}/rooms/${room.id}`}
-            className="rounded-2xl border border-border bg-card p-4"
+            className="card-shadow rounded-3xl bg-card p-4"
           >
-            <div className="text-3xl">{room.icon ?? "🚪"}</div>
-            <p className="mt-2 font-semibold">{room.name}</p>
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-background text-2xl">
+              {room.icon ?? "🚪"}
+            </span>
+            <p className="mt-3 font-semibold">{room.name}</p>
             <p className="text-sm text-muted">
               {counts.get(room.id) ?? 0} objet{(counts.get(room.id) ?? 0) > 1 ? "s" : ""}
             </p>

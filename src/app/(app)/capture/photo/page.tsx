@@ -1,8 +1,8 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import BackLink from "@/components/BackLink";
 import { downscaleImage, blobToBase64 } from "@/lib/image";
 import { useCaptureStore } from "@/lib/capture-store";
 
@@ -49,14 +49,12 @@ function PhotoContent() {
 
   return (
     <div>
-      <Link href="/capture" className="text-sm text-muted">
-        ‹ Ajouter
-      </Link>
-      <h1 className="mb-4 mt-1 text-2xl font-bold">📷 Photo</h1>
+      <BackLink href="/capture" label="Ajouter" />
+      <h1 className="mb-4 mt-1 text-2xl font-bold">Photo</h1>
 
       {preview ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={preview} alt="" className="w-full rounded-2xl" />
+        <img src={preview} alt="" className="card-shadow w-full rounded-3xl" />
       ) : (
         <p className="mb-4 text-sm text-muted">
           Photographiez une étagère, un placard, un frigo ou une penderie.
@@ -72,7 +70,7 @@ function PhotoContent() {
         </div>
       ) : (
         <label className="mt-4 block">
-          <span className="block w-full cursor-pointer rounded-xl bg-accent px-4 py-3 text-center font-semibold text-white">
+          <span className="block w-full cursor-pointer rounded-2xl bg-accent px-4 py-3.5 text-center font-semibold text-white shadow-lg shadow-accent/30">
             {preview ? "Reprendre une photo" : "Prendre une photo"}
           </span>
           <input

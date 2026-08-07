@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import BackLink from "@/components/BackLink";
 import ItemCard from "@/components/ItemCard";
 import { signPhotoUrls } from "@/lib/photos";
 import type { Item, Category } from "@/lib/types";
@@ -37,16 +38,14 @@ export default async function RoomPage({
 
   return (
     <div>
-      <Link href={`/homes/${homeId}`} className="text-sm text-muted">
-        ‹ {home.name}
-      </Link>
+      <BackLink href={`/homes/${homeId}`} label={home.name} />
       <div className="mb-6 mt-1 flex items-center justify-between">
         <h1 className="text-2xl font-bold">
           {room.icon} {room.name}
         </h1>
         <Link
           href={`/capture?home=${homeId}&room=${roomId}`}
-          className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/30"
         >
           + Ajouter
         </Link>

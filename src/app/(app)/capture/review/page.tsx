@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import BackLink from "@/components/BackLink";
 import { createClient } from "@/lib/supabase/client";
 import { useCaptureStore } from "@/lib/capture-store";
 import { CATEGORY_IDS, UNIT_IDS } from "@/lib/schemas";
@@ -87,13 +88,11 @@ export default function ReviewPage() {
   }
 
   const selectCls =
-    "rounded-lg border border-border bg-background px-2 py-1.5 text-sm outline-none";
+    "rounded-xl bg-background px-2.5 py-1.5 text-sm outline-none";
 
   return (
     <div>
-      <Link href="/capture" className="text-sm text-muted">
-        ‹ Ajouter
-      </Link>
+      <BackLink href="/capture" label="Ajouter" />
       <h1 className="mt-1 text-2xl font-bold">Vérifier avant d&apos;ajouter</h1>
       <p className="mb-4 mt-1 text-sm text-muted">
         {drafts.length} produit{drafts.length > 1 ? "s" : ""} détecté
@@ -130,13 +129,13 @@ export default function ReviewPage() {
         {drafts.map((draft, idx) => (
           <div
             key={idx}
-            className={`rounded-2xl border bg-card p-3 ${
-              draft.confidence === "low" ? "border-accent" : "border-border"
+            className={`card-shadow rounded-3xl bg-card p-3.5 ${
+              draft.confidence === "low" ? "ring-2 ring-warning" : ""
             }`}
           >
             {draft.confidence === "low" && (
-              <p className="mb-2 text-xs font-medium text-accent">
-                ⚠️ Identification incertaine — vérifiez
+              <p className="mb-2 inline-block rounded-full bg-warning-soft px-2.5 py-1 text-xs font-semibold text-warning">
+                Identification incertaine — vérifiez
               </p>
             )}
             <div className="flex items-center gap-2">
@@ -146,7 +145,7 @@ export default function ReviewPage() {
               <input
                 value={draft.name}
                 onChange={(e) => updateDraft(idx, { name: e.target.value })}
-                className="w-full rounded-lg border border-border bg-background px-2 py-1.5 font-medium outline-none"
+                className="w-full rounded-xl bg-background px-2.5 py-1.5 font-medium outline-none ring-accent focus:ring-2"
               />
               <button
                 onClick={() => removeDraft(idx)}
@@ -162,7 +161,7 @@ export default function ReviewPage() {
                   onClick={() =>
                     updateDraft(idx, { quantity: Math.max(1, draft.quantity - 1) })
                   }
-                  className="h-8 w-8 rounded-lg border border-border text-lg leading-none"
+                  className="h-8 w-8 rounded-lg bg-background text-lg leading-none"
                 >
                   −
                 </button>
@@ -171,7 +170,7 @@ export default function ReviewPage() {
                 </span>
                 <button
                   onClick={() => updateDraft(idx, { quantity: draft.quantity + 1 })}
-                  className="h-8 w-8 rounded-lg border border-border text-lg leading-none"
+                  className="h-8 w-8 rounded-lg bg-background text-lg leading-none"
                 >
                   +
                 </button>
@@ -232,7 +231,7 @@ export default function ReviewPage() {
       <button
         onClick={saveAll}
         disabled={saving || !homeId}
-        className="mt-6 w-full rounded-xl bg-accent px-4 py-3 font-semibold text-white disabled:opacity-50"
+        className="mt-6 w-full rounded-2xl bg-accent px-4 py-3.5 font-semibold text-white shadow-lg shadow-accent/30 disabled:opacity-50"
       >
         {saving
           ? "Enregistrement…"

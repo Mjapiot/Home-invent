@@ -33,7 +33,7 @@ export default function AddRoomButton({ homeId }: { homeId: string }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="flex min-h-28 flex-col items-center justify-center rounded-2xl border border-dashed border-border text-sm text-muted"
+        className="flex min-h-28 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border text-sm font-medium text-muted"
       >
         + Ajouter une pièce
       </button>
@@ -43,13 +43,13 @@ export default function AddRoomButton({ homeId }: { homeId: string }) {
   return (
     <form
       onSubmit={addRoom}
-      className="col-span-2 space-y-2 rounded-2xl border border-border bg-card p-4"
+      className="card-shadow col-span-2 space-y-2 rounded-3xl bg-card p-4"
     >
       <div className="flex gap-2">
         <select
           value={icon}
           onChange={(e) => setIcon(e.target.value)}
-          className="rounded-lg border border-border bg-background px-2 py-2 text-lg"
+          className="rounded-2xl bg-background px-2 py-2 text-lg"
         >
           {["🚪", "🍳", "🛋️", "🛏️", "🛁", "🚗", "🍷", "🧺", "📚", "🧸"].map((i) => (
             <option key={i} value={i}>
@@ -63,20 +63,20 @@ export default function AddRoomButton({ homeId }: { homeId: string }) {
           placeholder="Nom de la pièce"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none focus:border-accent"
+          className="w-full rounded-2xl bg-background px-3 py-2 outline-none ring-accent focus:ring-2"
         />
       </div>
       <div className="flex gap-2">
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="flex-1 rounded-lg border border-border py-2 text-sm text-muted"
+          className="flex-1 rounded-full bg-background py-2.5 text-sm font-medium text-muted"
         >
           Annuler
         </button>
         <button
           type="submit"
-          className="flex-1 rounded-lg bg-accent py-2 text-sm font-semibold text-white"
+          className="flex-1 rounded-full bg-accent py-2.5 text-sm font-semibold text-white"
         >
           Ajouter
         </button>

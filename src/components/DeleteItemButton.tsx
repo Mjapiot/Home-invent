@@ -32,7 +32,7 @@ export default function DeleteItemButton({
     return (
       <button
         onClick={remove}
-        className="flex-1 rounded-xl bg-danger px-4 py-3 font-semibold text-white"
+        className="flex-1 rounded-2xl bg-danger px-4 py-3 font-semibold text-white"
       >
         Confirmer ?
       </button>
@@ -41,7 +41,7 @@ export default function DeleteItemButton({
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="rounded-xl border border-border px-4 py-3 text-danger"
+      className="rounded-2xl bg-danger-soft px-4 py-3 font-medium text-danger"
     >
       Supprimer
     </button>

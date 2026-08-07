@@ -3,16 +3,13 @@
 import sharp from "sharp";
 import { mkdirSync } from "fs";
 
-// Maison stylisée ambre sur fond sombre (dessin vectoriel, pas d'emoji :
-// sharp n'embarque pas de police emoji couleur).
+// Maison blanche sur fond lavande (design system de l'app).
 const svg = (rounded) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="${rounded ? 96 : 0}" fill="#1c1917"/>
+  <rect width="512" height="512" rx="${rounded ? 96 : 0}" fill="#7c6cf0"/>
   <g>
-    <path d="M256 96 L448 256 L400 256 L400 416 L112 416 L112 256 L64 256 Z" fill="#f59e0b"/>
-    <rect x="216" y="300" width="80" height="116" rx="8" fill="#1c1917"/>
-    <rect x="150" y="290" width="44" height="44" rx="6" fill="#1c1917"/>
-    <rect x="318" y="290" width="44" height="44" rx="6" fill="#1c1917"/>
+    <path d="M256 104 L440 258 L396 258 L396 412 L116 412 L116 258 L72 258 Z" fill="#ffffff"/>
+    <rect x="220" y="304" width="72" height="108" rx="10" fill="#7c6cf0"/>
   </g>
 </svg>`;
 

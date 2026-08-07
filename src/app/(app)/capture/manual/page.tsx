@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import BackLink from "@/components/BackLink";
 import ItemForm from "@/components/ItemForm";
 import type { Category, Home, Room } from "@/lib/types";
 
@@ -30,9 +30,7 @@ export default async function ManualCapturePage({
 
   return (
     <div>
-      <Link href="/capture" className="text-sm text-muted">
-        ‹ Ajouter
-      </Link>
+      <BackLink href="/capture" label="Ajouter" />
       <h1 className="mb-6 mt-1 text-2xl font-bold">
         {sp.barcode ? "Produit scanné" : "Nouvel objet"}
       </h1>
