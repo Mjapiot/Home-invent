@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
-import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import { getAnthropic, EXTRACTION_MODEL, extractionSystemPrompt } from "@/lib/anthropic";
+import {
+  getGemini,
+  EXTRACTION_MODEL,
+  EXTRACTION_RESPONSE_SCHEMA,
+  extractionSystemPrompt,
+} from "@/lib/gemini";
 import { ExtractionResultSchema, toDraftItem } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -28,35 +32,32 @@ export async function POST(request: Request) {
   }
 
   try {
-    const response = await getAnthropic().messages.parse({
+    const response = await getGemini().models.generateContent({
       model: EXTRACTION_MODEL,
-      max_tokens: 8192,
-      system: extractionSystemPrompt({ homeName, roomName, mode: "photo" }),
-      messages: [
+      contents: [
         {
           role: "user",
-          content: [
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: "image/jpeg",
-                data: image,
-              },
-            },
-            {
-              type: "text",
-              text: "Liste tous les produits identifiables sur cette photo.",
-            },
+          parts: [
+            { inlineData: { mimeType: "image/jpeg", data: image } },
+            { text: "Liste tous les produits identifiables sur cette photo." },
           ],
         },
       ],
-      output_config: {
-        format: zodOutputFormat(ExtractionResultSchema),
+      config: {
+        systemInstruction: extractionSystemPrompt({
+          homeName,
+          roomName,
+          mode: "photo",
+        }),
+        responseMimeType: "application/json",
+        responseSchema: EXTRACTION_RESPONSE_SCHEMA,
       },
     });
 
-    if (response.stop_reason === "refusal" || !response.parsed_output) {
+    const parsed = ExtractionResultSchema.safeParse(
+      JSON.parse(response.text ?? "{}")
+    );
+    if (!parsed.success) {
       return NextResponse.json(
         { error: "Analyse impossible pour cette image" },
         { status: 422 }
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      items: response.parsed_output.items.map(toDraftItem),
+      items: parsed.data.items.map(toDraftItem),
     });
   } catch (err) {
     console.error("analyze-photo error:", err);

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
-import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import { getAnthropic, EXTRACTION_MODEL, extractionSystemPrompt } from "@/lib/anthropic";
+import {
+  getGemini,
+  EXTRACTION_MODEL,
+  EXTRACTION_RESPONSE_SCHEMA,
+  extractionSystemPrompt,
+} from "@/lib/gemini";
 import { ExtractionResultSchema, toDraftItem } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -28,22 +32,29 @@ export async function POST(request: Request) {
   }
 
   try {
-    const response = await getAnthropic().messages.parse({
+    const response = await getGemini().models.generateContent({
       model: EXTRACTION_MODEL,
-      max_tokens: 8192,
-      system: extractionSystemPrompt({ homeName, roomName, mode: "voice" }),
-      messages: [
+      contents: [
         {
           role: "user",
-          content: `Transcription de la dictée :\n\n${transcript}`,
+          parts: [{ text: `Transcription de la dictée :\n\n${transcript}` }],
         },
       ],
-      output_config: {
-        format: zodOutputFormat(ExtractionResultSchema),
+      config: {
+        systemInstruction: extractionSystemPrompt({
+          homeName,
+          roomName,
+          mode: "voice",
+        }),
+        responseMimeType: "application/json",
+        responseSchema: EXTRACTION_RESPONSE_SCHEMA,
       },
     });
 
-    if (response.stop_reason === "refusal" || !response.parsed_output) {
+    const parsed = ExtractionResultSchema.safeParse(
+      JSON.parse(response.text ?? "{}")
+    );
+    if (!parsed.success) {
       return NextResponse.json(
         { error: "Extraction impossible pour cette dictée" },
         { status: 422 }
@@ -51,7 +62,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      items: response.parsed_output.items.map(toDraftItem),
+      items: parsed.data.items.map(toDraftItem),
     });
   } catch (err) {
     console.error("extract-items error:", err);

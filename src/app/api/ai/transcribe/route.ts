@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import { getGemini, EXTRACTION_MODEL } from "@/lib/gemini";
 import { createClient } from "@/lib/supabase/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
-let openai: OpenAI | null = null;
-function getOpenAI() {
-  if (!openai) {
-    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  }
-  return openai;
-}
-
+// Transcription via Gemini (multimodal audio) — pas besoin de Whisper.
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -38,12 +31,34 @@ export async function POST(request: Request) {
   }
 
   try {
-    const transcription = await getOpenAI().audio.transcriptions.create({
-      file: audio,
-      model: "whisper-1",
-      language: "fr",
+    const base64 = Buffer.from(await audio.arrayBuffer()).toString("base64");
+    // iOS enregistre en audio/mp4 (AAC), Chrome/Android en audio/webm —
+    // Gemini accepte les deux en inlineData.
+    const mimeType = audio.type || "audio/mp4";
+
+    const response = await getGemini().models.generateContent({
+      model: EXTRACTION_MODEL,
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { inlineData: { mimeType, data: base64 } },
+            {
+              text: "Transcris fidèlement cette dictée en français. Réponds uniquement avec la transcription, sans commentaire ni ponctuation ajoutée inutilement.",
+            },
+          ],
+        },
+      ],
     });
-    return NextResponse.json({ transcript: transcription.text });
+
+    const transcript = (response.text ?? "").trim();
+    if (!transcript) {
+      return NextResponse.json(
+        { error: "Transcription vide" },
+        { status: 422 }
+      );
+    }
+    return NextResponse.json({ transcript });
   } catch (err) {
     console.error("transcribe error:", err);
     return NextResponse.json(

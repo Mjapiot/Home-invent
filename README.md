@@ -4,8 +4,8 @@ PWA iOS-first pour inventorier vos maisons pièce par pièce, et savoir en un
 coup d'œil ce qu'il reste en stock — chez vous comme dans la maison de
 vacances.
 
-**4 modes d'ajout** : 📷 photo analysée par IA (Claude Vision) · 📱 scan
-code-barres (Open Food Facts) · 🎙️ dictée vocale (Whisper + Claude) · ✏️
+**4 modes d'ajout** : 📷 photo analysée par IA (Gemini Vision) · 📱 scan
+code-barres (Open Food Facts) · 🎙️ dictée vocale (Gemini audio) · ✏️
 saisie manuelle. **Recherche** tolérante aux accents/fautes, filtres par
 maison/pièce/catégorie, et **alertes de péremption** (aliments, médicaments,
 cosmétiques).
@@ -13,7 +13,7 @@ cosmétiques).
 ## Stack
 
 Next.js 15 (App Router) · Supabase (Auth, Postgres + RLS, Storage) ·
-Anthropic API (`claude-sonnet-5`, structured outputs) · OpenAI Whisper ·
+Gemini API (`gemini-flash-latest`, free tier — vision, audio et JSON structuré) ·
 `barcode-detector` (zxing-wasm) · Serwist (service worker) · Tailwind 4.
 
 ## Mise en route
@@ -38,10 +38,8 @@ Renseignez :
 
 - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Dashboard
   Supabase → Settings → API
-- `ANTHROPIC_API_KEY` — [console.anthropic.com](https://console.anthropic.com)
-  (analyse photo + extraction dictée)
-- `OPENAI_API_KEY` — [platform.openai.com](https://platform.openai.com)
-  (transcription Whisper uniquement)
+- `GEMINI_API_KEY` — [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+  (photo, transcription et extraction — free tier suffisant)
 
 ### 3. Lancer
 
@@ -60,7 +58,7 @@ npm run dev
 npx vercel
 ```
 
-Ajoutez les 4 variables d'environnement dans les settings du projet Vercel.
+Ajoutez les 3 variables d'environnement dans les settings du projet Vercel.
 Ensuite, sur iPhone : ouvrez l'URL dans Safari → **Partager** → **Sur
 l'écran d'accueil** pour installer la PWA (caméra plein écran, icône,
 lancement standalone).
