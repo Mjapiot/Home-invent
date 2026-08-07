@@ -26,7 +26,7 @@ export default async function AppLayout({
 
   return (
     <div className="mx-auto min-h-dvh max-w-lg pt-safe">
-      <main className="px-4 pb-28 pt-4">{children}</main>
+      <main className="pb-tabbar px-4 pt-4">{children}</main>
       <TabBar alertCount={alertCount} />
       <InstallPrompt />
     </div>

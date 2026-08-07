@@ -56,6 +56,10 @@
 
 html {
   -webkit-tap-highlight-color: transparent;
+  /* Supprime le délai de double-tap-zoom sur iOS */
+  touch-action: manipulation;
+  /* Empêche Safari d'agrandir le texte en paysage */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -63,6 +67,46 @@ body {
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overscroll-behavior-y: none;
+}
+
+/* iOS zoome automatiquement sur tout champ < 16px : on force le minimum. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1em);
+}
+
+/* Neutralise le style natif iOS des champs texte (ombres internes, coins) —
+   les date/select gardent leur apparence native (pickers iOS). */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/* Feedback tactile : pas de hover sur iOS, on marque le toucher. */
+@media (hover: none) {
+  a:active,
+  button:active,
+  label:active {
+    opacity: 0.65;
+  }
+}
+
+/* Pas de menu contextuel long-press ni de sélection sur le chrome UI */
+a,
+button,
+nav {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Ombre douce des cartes (invisible en sombre, la carte contraste déjà) */
@@ -83,4 +127,8 @@ body {
 }
 .pt-safe {
   padding-top: env(safe-area-inset-top);
+}
+/* Contenu principal : réserve la hauteur de la tab bar + geste home */
+.pb-tabbar {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
 }
